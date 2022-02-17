@@ -1,4 +1,5 @@
 ﻿using BookStore.Models;
+using BookStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -36,12 +37,27 @@ namespace BookStore.Controllers
             return View();
         }
 
-
-        public IActionResult BookView()
+        // pagination function
+        public IActionResult BookView(int pageNum = 1)
         {
-            var blah = repo.Books.ToList();
+            int pageSize = 10;
 
-            return View(blah);
+            var data = new BooksViewModel
+            {
+                Books = repo.Books
+                    .OrderBy(b => b.Title)
+                    .Skip((pageNum - 1) * pageSize)
+                    .Take(pageSize),
+
+                PageInfo = new PageInfo
+                {
+                    TotalNumBooks = repo.Books.Count(),
+                    BooksPerPage = pageSize,
+                    CurrentPage = pageNum
+                }
+            };
+
+            return View(data);
         }
 
         // unimportant info from template
