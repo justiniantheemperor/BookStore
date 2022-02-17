@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "BookView";
+}
+
+@model List<Book>
+
+
+<div>
+    <table class="table table-bordered table-striped">
+        <thead class="font-weight-bold">
+            <tr>
+                <td>Title</td>
+                <td>Author</td>
+                <td>Publisher</td>
+                <td>Isbn</td>
+                <td>Classification</td>
+                <td>Category</td>
+                <td>PageCount</td>
+                <td>Price</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @*create a for loop to print each row in our table*@
+            @foreach (Book x in Model)
+            {
+                <tr>
+                    <td>@x.Title</td>
+                    <td>@x.Author</td>
+                    <td>@x.Publisher</td>
+                    <td>@x.Isbn</td>
+                    <td>@x.Classification</td>
+                    <td>@x.Category</td>
+                    <td>@x.PageCount</td>
+                    <td>@x.Price</td>
+
+                    @*<td><a asp-controller="Home" asp-action="Edit" asp-route-bookid="@x.BookId">Edit</a></td>
+                    <td><a asp-controller="Home" asp-action="Delete" asp-route-bookid="@x.BookId">Delete</a></td>*@
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
