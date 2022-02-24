@@ -38,20 +38,25 @@ namespace BookStore.Controllers
         }
 
         // pagination function
-        public IActionResult BookView(int pageNum = 1)
+        public IActionResult BookView(string bookCategory, int pageNum = 1)
         {
             int pageSize = 10;
 
             var data = new BooksViewModel
             {
                 Books = repo.Books
+                    .Where(c => c.Category == bookCategory || bookCategory == null)
                     .OrderBy(b => b.Title)
                     .Skip((pageNum - 1) * pageSize)
                     .Take(pageSize),
 
                 PageInfo = new PageInfo
                 {
-                    TotalNumBooks = repo.Books.Count(),
+                    // if statement to determine how many pages are displayed based on entries
+                    TotalNumBooks = 
+                        (bookCategory == null
+                        ? repo.Books.Count() 
+                        : repo.Books.Where(x => x.Category == bookCategory).Count()),
                     BooksPerPage = pageSize,
                     CurrentPage = pageNum
                 }

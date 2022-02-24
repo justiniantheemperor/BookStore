@@ -52,6 +52,7 @@ namespace BookStore
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -60,9 +61,25 @@ namespace BookStore
 
             app.UseEndpoints(endpoints =>
             {
+                // determines URL route if both category and page number are provided
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "categorypage",
+                    "{bookCategory}/{pageNum}", 
+                    new { Controller = "Home", action = "BookView" });
+
+                // url route with just page number (all categories)
+                endpoints.MapControllerRoute(
+                    name: "Paging",
+                    pattern: "{pageNum}",
+                    defaults: new { Controller = "Home", action = "BookView", pageNum = 1 });
+
+                // url route with just the category
+                endpoints.MapControllerRoute(
+                     "category",
+                     "{bookCategory}",
+                     new { Controller = "Home", action = "BookView", pageNum=1 });
+
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

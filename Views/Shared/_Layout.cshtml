@@ -29,11 +29,20 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+  
+    <div class="row m-1 p-1">
+        <div id="categories" class="col-3">
+            <vc:categories></vc:categories>
+        </div>
+        <div class="col-9">
+            <div>
+                @RenderBody()
+            </div>
+        </div>  
     </div>
+
+
 
     <footer class="border-top footer text-muted">
         <div class="container">
