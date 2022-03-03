@@ -10,7 +10,7 @@ namespace BookStore.Models
         public List<CartLineItem> Items { get; set; } = new List<CartLineItem>();
 
         // allows you to add items to cart
-        public void AddItem(Book book, int qty)
+        public virtual void AddItem(Book book, int qty)
         {
             CartLineItem line = Items
                 .Where(b => b.Book.BookId == book.BookId)
@@ -29,6 +29,17 @@ namespace BookStore.Models
                 line.Quantity += qty;
             }
         }
+
+        public virtual void RemoveItem(Book book)
+        {
+            Items.RemoveAll(x => x.Book.BookId == book.BookId);
+        }
+
+        public virtual void ClearBasket()
+        {
+            Items.Clear();
+        }
+
         public double CalculateTotal()
         {
             double sum = Items.Sum(x => x.Quantity * x.Book.Price);
