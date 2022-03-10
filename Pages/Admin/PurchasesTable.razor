@@ -1,5 +1,5 @@
 ﻿
-<table class="table table-sm table-striped table-bordered">
+<table class="table table-sm table-dark table-bordered table-striped">
     <thead>
         <tr>
             <th colspan="5" class="text-center">@TableTitle</th>
@@ -8,9 +8,9 @@
 
     <tbody>
         @if (Purchases?.Count() > 0)
+        {
+            @foreach (Purchase p in Purchases)
             {
-                @foreach (Purchase p in Purchases)
-                {
                 <tr>
                     <td>@p.Name</td>
                     <td>@p.Country</td>
@@ -26,21 +26,21 @@
                 </tr>
 
                 @foreach (CartLineItem cli in p.Lines)
-                    {
-                <tr>
-                    <td colspan="2"></td>
-                    <td>@cli.Book.Title</td>
-                    <td>@cli.Quantity</td>
-                </tr>
-                    }
+                {
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>@cli.Book.Title</td>
+                        <td>@cli.Quantity</td>
+                    </tr>
                 }
             }
-            else
-            {
-                <tr>
-                    <td colspan="5" class="text-center">No Orders</td>
-                </tr>
-            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No Orders</td>
+            </tr>
+        }
     </tbody>
 
 </table>

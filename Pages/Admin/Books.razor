@@ -3,7 +3,7 @@
 
 @inherits OwningComponentBase<IBookstoreRepository>
 
-<table class="table table-sm table-striped table-bordered">
+<table class="table table-sm table-dark table-bordered table-striped">
     <thead>
         <tr>
             <th>Book ID</th>
@@ -14,29 +14,29 @@
     <tbody>
         @if (BookData?.Count() > 0)
         {
-        //List books 
-        @foreach (Book b in BookData)
-        {
-        <tr>
-            <td>@b.BookId</td>
-            <td>@b.Title</td>
-            <td>@b.Author</td>
+            //List books
+            @foreach (Book b in BookData)
+            {
+                <tr>
+                    <td>@b.BookId</td>
+                    <td>@b.Title</td>
+                    <td>@b.Author</td>
 
-            @*Details button*@
-            <td>
-                <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BookId)">Details</NavLink>
-            </td>
-            @*Edit button*@
-            <td>
-                <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BookId)">Edit</NavLink>
-            </td>
-            <td>
-                @*Delete button*@
-                <button class="btn btn-danger btn-sm" @onclick="@(x => RemoveBook(b))">Delete</button>
-            </td>
-        </tr>
-                }
+                    @*Details button*@
+                    <td>
+                        <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BookId)">Details</NavLink>
+                    </td>
+                    @*Edit button*@
+                    <td>
+                        <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BookId)">Edit</NavLink>
+                    </td>
+                    <td>
+                        @*Delete button*@
+                        <button class="btn btn-danger btn-sm" @onclick="@(x => RemoveBook(b))">Delete</button>
+                    </td>
+                </tr>
             }
+        }
         else
         {
             <tr>
