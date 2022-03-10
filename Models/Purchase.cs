@@ -33,7 +33,9 @@ namespace BookStore.Models
         [Required(ErrorMessage = "Please enter a country")]
         public string Country { get; set; }
 
-
+        //This means that it is not attached to a form, for admin pages onlys
+        [BindNever]
+        public bool PurchaseReceived { get; set; }
 
     }
 }
