@@ -41,8 +41,7 @@ namespace BookStore.Models
                     .IsUnique();
 
                 entity.Property(e => e.BookId)
-                    .HasColumnName("BookID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("BookID");
 
                 entity.Property(e => e.Author).IsRequired();
 
