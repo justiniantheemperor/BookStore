@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,10 +33,22 @@ namespace BookStore
 
             services.AddDbContext<BookstoreContext>(options =>
            {
+               //references appsettings.json connection string
                options.UseSqlite(Configuration["ConnectionStrings:BookstoreDBConnection"]);
            });
 
-     
+            // add security database for admin page
+            services.AddDbContext<AppIdentityDBContext>(options =>
+            {
+                // references appsettings.json connection string
+                options.UseSqlite(Configuration["ConnectionStrings:IdentityConnection"]);
+            });
+
+            // sets up user and role for security check for admin page
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDBContext>();
+
+
             services.AddScoped<IBookstoreRepository, EFBookstoreRepository>();
             services.AddScoped<IPurchaseRepository, EFPurchaseRepository>();
 
@@ -69,6 +82,8 @@ namespace BookStore
             app.UseSession();
             app.UseRouting();
 
+            // security check, needs to be before endpointss
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -98,6 +113,8 @@ namespace BookStore
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/admin/{*catchall}", "/admin/Index");
             });
+
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }
